@@ -1,0 +1,66 @@
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<html>
+<h1>查询POAP差集【地址2中有 地址1中没有的】</h1>
+<div>嫌丑莫用!!! 转账有风险 授权需谨慎 解除授权：<a href="https://revoke.cash/" target="_blank">revoke.cash/</a></div>
+<br>
+<div>
+    <input type="text" id="add1" value="" placeholder="地址1" style="width: 350px;">
+    <input type="button" id="btn2" value="互换">
+    <input type="text" id="add2" value="" placeholder="地址2" style="width: 350px;">
+    <input type="button" id="btn1" value="查询">
+
+</div>
+<div id="add">
+</div>
+
+</html>
+
+<script>
+
+    $(function () {
+        $("#btn1").click(function () {
+            $("#add").html("")
+            query();
+        })
+
+        $("#btn2").click(function () {
+            var tmp = $("#add1").val()
+            $("#add1").val($("#add2").val())
+            $("#add2").val(tmp)
+        })
+    });
+
+    var query = function () {
+        $.ajaxSettings.async = false;
+        var list_A = new Array();
+        var list_B = new Array();
+        url_A = "https://frontend.poap.tech/actions/scan/" + $("#add1").val()
+        $.getJSON(url_A, function (data, status) {
+            data.forEach(item => {
+                list_A.push(item.event.name + "----" + item.event.image_url)
+            });
+        });
+
+        url_B = "https://frontend.poap.tech/actions/scan/" + $("#add2").val()
+        $.getJSON(url_B, function (data, status) {
+            data.forEach(item => {
+                list_B.push(item.event.name + "----" + item.event.image_url)
+            });
+        });
+
+        let minus = $(list_B).not(list_A).toArray();
+
+        minus.forEach(item => {
+
+            items = item.split("----")
+            div = "<div style='display: inline-block;padding: 30px;text-align: center;'>" +
+                "<img style='width: 100px;' src='" + items[1] + "'>" +
+                "<p>" + items[0] + "</p>" +
+                "</div>"
+            $("#add").append(div)
+        })
+    }
+
+
+
+</script>
