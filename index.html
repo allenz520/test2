@@ -37,14 +37,14 @@
         url_A = "https://frontend.poap.tech/actions/scan/" + $("#add1").val()
         $.getJSON(url_A, function (data, status) {
             data.forEach(item => {
-                list_A.push(item.event.name + "----" + item.event.image_url)
+                list_A.push(item.event.id + "----" + item.event.name + "----" + item.event.image_url)
             });
         });
 
         url_B = "https://frontend.poap.tech/actions/scan/" + $("#add2").val()
         $.getJSON(url_B, function (data, status) {
             data.forEach(item => {
-                list_B.push(item.event.name + "----" + item.event.image_url)
+                list_B.push(item.event.id + "----" + item.event.name + "----" + item.event.image_url)
             });
         });
 
@@ -54,8 +54,8 @@
 
             items = item.split("----")
             div = "<div style='display: inline-block;padding: 30px;text-align: center;'>" +
-                "<img style='width: 100px;' src='" + items[1] + "'>" +
-                "<p>" + items[0] + "</p>" +
+                "<img style='width: 100px;' src='" + items[2] + "'>" +
+                "<p>" + items[0] + "----" + items[1] + "</p>" +
                 "</div>"
             $("#add").append(div)
         })
